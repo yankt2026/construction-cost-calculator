@@ -1,0 +1,12 @@
+---
+import { calculators } from '../data/calculators';
+const year = new Date().getFullYear();
+---
+<footer class="site-footer">
+  <div class="container footer-grid">
+    <div><strong>Construction Cost Calculator</strong><p>Practical, browser-based planning calculators. No login and no project data sent to a server.</p></div>
+    <div><h2>Calculators</h2>{calculators.slice(0, 4).map((item) => <a href={`/${item.slug}/`}>{item.navTitle}</a>)}</div>
+    <div><h2>Information</h2><a href="/about/">About</a><a href="/contact/">Contact</a><a href="/privacy-policy/">Privacy Policy</a><a href="/disclaimer/">Disclaimer</a></div>
+  </div>
+  <div class="container footer-bottom">© {year} Construction Cost Calculator. Estimates only.</div>
+</footer>

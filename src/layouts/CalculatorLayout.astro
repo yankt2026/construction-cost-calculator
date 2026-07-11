@@ -1,0 +1,33 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import CalculatorForm from '../components/CalculatorForm.astro';
+import FAQ from '../components/FAQ.astro';
+import RelatedCalculators from '../components/RelatedCalculators.astro';
+import type { CalculatorDefinition } from '../data/calculators';
+import { site } from '../data/site';
+const { calculator } = Astro.props as { calculator: CalculatorDefinition };
+const path = `/${calculator.slug}/`;
+const jsonLd = [
+  { '@context': 'https://schema.org', '@type': 'BreadcrumbList', itemListElement: [{ '@type': 'ListItem', position: 1, name: 'Home', item: site.url }, { '@type': 'ListItem', position: 2, name: calculator.title, item: new URL(path, site.url).toString() }] },
+  { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: calculator.faqs.map((faq) => ({ '@type': 'Question', name: faq.question, acceptedAnswer: { '@type': 'Answer', text: faq.answer } })) },
+  { '@context': 'https://schema.org', '@type': 'SoftwareApplication', name: calculator.title, applicationCategory: 'BusinessApplication', operatingSystem: 'Any modern web browser', offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' }, description: calculator.description, url: new URL(path, site.url).toString() },
+];
+---
+<BaseLayout title={`${calculator.title} | Free Online Estimate`} description={calculator.description} canonicalPath={path} jsonLd={jsonLd}>
+  <div class="page-hero compact"><div class="container"><Breadcrumbs title={calculator.title} /><span class="section-kicker">Free · No sign-up · Private in your browser</span><h1>{calculator.title}</h1><p class="hero-copy">{calculator.intro}</p></div></div>
+  <div class="container calculator-wrap"><CalculatorForm calculator={calculator} /></div>
+  <div class="container article-layout">
+    <article>
+      <section><span class="section-number">01</span><h2>How to Use This Calculator</h2><ol class="steps">{calculator.howTo.map((step) => <li>{step}</li>)}</ol></section>
+      <section><span class="section-number">02</span><h2>Calculation Formula</h2><div class="formula-box">{calculator.formula}</div></section>
+      <section><span class="section-number">03</span><h2>Worked Example</h2><p>{calculator.example}</p></section>
+      <section><span class="section-number">04</span><h2>Factors That Affect the Estimate</h2><ul class="check-list">{calculator.factors.map((factor) => <li>{factor}</li>)}</ul></section>
+      <section><span class="section-number">05</span><h2>Frequently Asked Questions</h2><FAQ items={calculator.faqs} /></section>
+      <section class="disclaimer-box"><h2>Important Disclaimer</h2><p>{calculator.disclaimer}</p></section>
+    </article>
+    <aside><div class="aside-card"><strong>Planning reminder</strong><p>Replace every example value with information appropriate to your project before relying on the estimate.</p></div></aside>
+  </div>
+  <section class="related-section"><div class="container"><span class="section-kicker">Continue planning</span><h2>Related Calculators</h2><RelatedCalculators slugs={calculator.related} /></div></section>
+</BaseLayout>
+<script>import '../scripts/calculator-controller';</script>

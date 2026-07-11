@@ -1,0 +1,7 @@
+---
+import type { FAQItem } from '../data/calculators';
+const { items } = Astro.props as { items: FAQItem[] };
+---
+<div class="faq-list">
+  {items.map((item, index) => <details open={index === 0}><summary>{item.question}</summary><p>{item.answer}</p></details>)}
+</div>

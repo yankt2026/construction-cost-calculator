@@ -1,0 +1,7 @@
+---
+import { calculatorBySlug } from '../data/calculators';
+const { slugs } = Astro.props as { slugs: string[] };
+---
+<div class="related-grid">
+  {slugs.map((slug) => { const item = calculatorBySlug[slug]; return <a class="related-card" href={`/${slug}/`}><span>Free calculator</span><strong>{item.title}</strong><em>Open calculator →</em></a>; })}
+</div>

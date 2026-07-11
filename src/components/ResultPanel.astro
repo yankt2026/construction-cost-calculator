@@ -1,0 +1,12 @@
+---
+import type { ResultDefinition } from '../data/calculators';
+const { results } = Astro.props as { results: ResultDefinition[] };
+---
+<section class="result-panel" aria-live="polite" aria-labelledby="result-title">
+  <div class="result-heading"><div><span class="eyebrow">Your estimate</span><h2 id="result-title">Calculation Results</h2></div><span class="estimate-badge">Estimate only</span></div>
+  <div class="result-empty" data-result-empty>Complete the fields and select Calculate to see your estimate.</div>
+  <dl class="result-list" data-result-list hidden>
+    {results.map((result, index) => <div class:list={['result-row', index === results.length - 1 && 'result-total']}><dt>{result.label}</dt><dd><span data-result={result.key} data-format={result.format}>—</span>{result.unit && <small> {result.unit}</small>}</dd></div>)}
+  </dl>
+  <button class="button button-ghost print-button" type="button" data-print hidden>Print Results</button>
+</section>

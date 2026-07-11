@@ -1,0 +1,29 @@
+---
+import { calculators } from '../data/calculators';
+---
+<header class="site-header">
+  <div class="container header-inner">
+    <a class="brand" href="/" aria-label="Construction Cost Calculator home">
+      <span class="brand-mark" aria-hidden="true">CC</span>
+      <span>Construction Cost<br/><strong>Calculator</strong></span>
+    </a>
+    <nav class="desktop-nav" aria-label="Main navigation">
+      <a href="/">Home</a>
+      <details>
+        <summary>Calculators</summary>
+        <div class="nav-menu">
+          {calculators.map((item) => <a href={`/${item.slug}/`}>{item.navTitle}</a>)}
+        </div>
+      </details>
+      <a href="/about/">About</a>
+    </nav>
+    <details class="mobile-nav">
+      <summary aria-label="Open navigation">Menu</summary>
+      <nav aria-label="Mobile navigation">
+        <a href="/">Home</a>
+        {calculators.map((item) => <a href={`/${item.slug}/`}>{item.navTitle}</a>)}
+        <a href="/about/">About</a><a href="/contact/">Contact</a>
+      </nav>
+    </details>
+  </div>
+</header>

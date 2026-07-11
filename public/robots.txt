@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://constructioncostcalculator.example/sitemap-index.xml

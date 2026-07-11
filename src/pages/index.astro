@@ -1,0 +1,17 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro'; import FAQ from '../components/FAQ.astro'; import { calculators } from '../data/calculators'; import { site } from '../data/site';
+const faqs=[
+ {question:'Are these construction calculators free?',answer:'Yes. All six calculators are free to use without an account.'},
+ {question:'Do you save my project information?',answer:'No. Calculations run locally in your browser and the site has no project database.'},
+ {question:'Do the default costs reflect today’s prices?',answer:'No. Every default cost is an editable example used to demonstrate the calculation.'},
+ {question:'Can these estimates replace professional bids?',answer:'No. Use them for early planning and confirm scope, quantities, and prices with qualified local professionals.'},
+ {question:'Can I print my calculation?',answer:'Yes. Each calculator includes a print button after a valid estimate is produced.'}
+];
+const jsonLd=[{'@context':'https://schema.org','@type':'FAQPage',mainEntity:faqs.map(f=>({'@type':'Question',name:f.question,acceptedAnswer:{'@type':'Answer',text:f.answer}}))}];
+---
+<BaseLayout title="Free Construction Cost Calculators | Plan Project Budgets" description={site.description} canonicalPath="/" jsonLd={jsonLd}>
+  <section class="page-hero"><div class="container home-hero-grid"><div><span class="section-kicker">Built for early project planning</span><h1>Free Construction Cost Calculators</h1><p class="hero-copy">Estimate construction, house, framing, garage, commercial building, and post-construction cleaning costs with editable assumptions. No sign-up. No external pricing feed. Your inputs stay in your browser.</p></div><div class="hero-panel"><strong>Clear estimates, not mystery numbers.</strong><ul><li>Editable US cost assumptions</li><li>Transparent formulas and examples</li><li>Printable, itemized results</li></ul></div></div></section>
+  <div class="container home-main"><section class="calculator-index"><div class="calculator-index-head"><div><span class="section-kicker">Six planning tools</span><h2>Choose a calculator</h2></div><p>Start with the tool closest to your project scope.</p></div><div class="calculator-grid">{calculators.map((item,index)=><a class="calculator-tile" href={`/${item.slug}/`}><span>0{index+1} · Calculator</span><h3>{item.title}</h3><p>{item.description}</p><b>Calculate now →</b></a>)}</div></section></div>
+  <section class="home-section"><div class="container"><span class="section-kicker">Simple by design</span><h2>How to Use These Calculators</h2><div class="how-grid"><div class="how-card"><b>01</b><h3>Describe the project</h3><p>Enter dimensions, area, or labor assumptions using US customary units.</p></div><div class="how-card"><b>02</b><h3>Edit every example</h3><p>Replace the clearly labeled sample costs with values suited to your scope.</p></div><div class="how-card"><b>03</b><h3>Review the breakdown</h3><p>Use the itemized estimate to ask better questions and compare early options.</p></div></div></div></section>
+  <section class="home-section alt"><div class="container article-layout" style="padding-top:0;padding-bottom:0"><article><span class="section-kicker">Common questions</span><h2>Construction Calculator FAQ</h2><FAQ items={faqs}/></article><aside><div class="aside-card"><strong>Private by default</strong><p>There is no login, database, or API. Your calculation inputs remain in your browser.</p></div></aside></div></section>
+</BaseLayout>

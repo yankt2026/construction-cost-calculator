@@ -1,0 +1,21 @@
+---
+import type { CalculatorDefinition } from '../data/calculators';
+import ResultPanel from './ResultPanel.astro';
+const { calculator } = Astro.props as { calculator: CalculatorDefinition };
+---
+<div class="calculator-shell">
+  <form class="calculator-card" data-calculator={calculator.id} novalidate>
+    <div class="calculator-card-head"><span class="eyebrow">Editable inputs</span><h2>Project Details</h2><p>Example costs are editable and do not represent current market prices.</p></div>
+    <div class="field-grid">
+      {calculator.fields.map((field) => <div class:list={['form-field', field.type === 'checkbox' && 'checkbox-field']}>
+        {field.type === 'checkbox' ? <label><input type="checkbox" name={field.key} checked={Boolean(field.defaultValue)} /><span>{field.label}</span></label> : <label for={`${calculator.id}-${field.key}`}>{field.label}{field.unit && <span class="unit">{field.unit}</span>}</label>}
+        {field.type === 'number' && <input id={`${calculator.id}-${field.key}`} name={field.key} type="number" value={field.defaultValue} min={field.min} max={field.max} step={field.step ?? 'any'} required />}
+        {field.type === 'select' && <select id={`${calculator.id}-${field.key}`} name={field.key}>{field.options?.map((option) => <option value={option.value} data-multiplier={option.multiplier} selected={option.value === field.defaultValue}>{option.label}</option>)}</select>}
+        {field.hint && <small>{field.hint}</small>}<span class="field-error" data-error={field.key}></span>
+      </div>)}
+    </div>
+    <div class="form-error" data-form-error role="alert"></div>
+    <div class="form-actions"><button class="button button-primary" type="submit">Calculate Estimate</button><button class="button button-secondary" type="reset">Reset</button></div>
+  </form>
+  <ResultPanel results={calculator.results} />
+</div>
